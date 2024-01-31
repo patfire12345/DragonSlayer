@@ -1,14 +1,16 @@
+import { Button, Container, Stack, Textarea } from "@chakra-ui/react";
+
 import DataTable from "./DataTable";
 import { usePapaParse } from "react-papaparse";
 import { useState } from "react";
 
 export default function CsvParser() {
-  const [csvString, setCsvString] = useState<string>("");
+  const [userInput, setUserInput] = useState<string>("");
   const { readString } = usePapaParse();
   const [tableData, setTableData] = useState<any[]>([]);
 
   const handleReadString = () => {
-    readString(csvString, {
+    readString(userInput, {
       worker: true,
       complete: (results) => {
         setTableData(results.data);
@@ -17,18 +19,17 @@ export default function CsvParser() {
   };
 
   return (
-    <div>
-      <textarea
-        value={csvString}
-        onChange={(e) => setCsvString(e.target.value)}
-        placeholder="Paste CSV here..."
-        rows={5}
-        cols={50}
-      />
-      <br />
-      <button onClick={() => handleReadString()}>Parse CSV</button>
-
-      <DataTable data={tableData} />
-    </div>
+    <Container centerContent>
+      <Stack spacing="1rem">
+        <Textarea
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          placeholder="Paste CSV here..."
+          rows={10}
+        />
+        <Button onClick={() => handleReadString()}>Parse CSV</Button>
+        <DataTable data={tableData} />
+      </Stack>
+    </Container>
   );
 }
