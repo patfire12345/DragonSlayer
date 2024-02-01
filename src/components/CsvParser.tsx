@@ -2,16 +2,12 @@ import { Button, Container, Stack, Textarea } from "@chakra-ui/react";
 
 import DataTable from "./DataTable";
 import { usePapaParse } from "react-papaparse";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function CsvParser() {
   const [userInput, setUserInput] = useState<string>("");
   const { readString } = usePapaParse();
   const [tableData, setTableData] = useState<any[]>([]);
-
-  useEffect(() => {
-    console.log(tableData)
-  },[tableData])
 
   const parseText = (text: string, delimitter: string, tolerance: number, numberOfTables: number) => {
     const splitText = text.split("\n")
@@ -70,18 +66,25 @@ export default function CsvParser() {
     return tableList
   }
 
+  // NEED TO FIX, DATA NOT RENDERING
   const handleReadString = () => {
-    const tableList = parseText(userInput,"\t",1,2)
+    const tableList = parseText(userInput,"\t",1,2);
+    const updatedTableList = [];
 
-    for (let i = 0; i < tableList.length; i++) {
-      readString(tableList[i], {
+    tableList.forEach((data) => {
+      readString(data, {
         worker: true,
         complete: (results) => {
-          setTableData([...tableData,results.data]);
+          updatedTableList.push(results.data);
+          console.log(updatedTableList,0)
         },
       });
-    }
-  };
+    })
+
+    setTableData([...updatedTableList])
+  }
+
+    
 
   const displayTables = () => {
     return (
