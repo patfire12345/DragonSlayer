@@ -13,20 +13,30 @@ export default function CsvParser() {
     const splitText = text.split("\n")
     const newSplitText = []
 
-    const headerText = splitText[0].split(" ")
-    const csvHeaderText = headerText[headerText.length-1]
-
-    newSplitText.push(csvHeaderText)
-
     let delimitterCount = 0;
+    let headerRowFound = false;
 
-    for (let i = 0; i < csvHeaderText.length; i++) {
-      if (csvHeaderText[i] === delimitter) {
-        delimitterCount++;
+    for (let i = 0; i < splitText.length; i++) {
+      if (!headerRowFound) {
+        const headerText = splitText[i].split(" ")
+        const csvHeaderText = headerText[headerText.length-1]
+
+        if (csvHeaderText.includes(delimitter)) {
+          newSplitText.push(csvHeaderText)
+          headerRowFound = true
+  
+          for (let j = 0; j < csvHeaderText.length; j++) {
+            if (csvHeaderText[j] === delimitter) {
+              delimitterCount++;
+            }
+          }
+
+          
+        }
+
+        continue
       }
-    }
 
-    for (let i = 1; i < splitText.length; i++) {
       let innerDelimiterCount = 0
       for (let j = 0; j < splitText[i].length; j++) {
         if (splitText[i][j] === delimitter) {
