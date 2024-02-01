@@ -1,3 +1,5 @@
+import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+
 type Props = {
   data: any[];
 };
@@ -8,23 +10,23 @@ export default function DataTable({ data }: Props) {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
+    <Table variant="striped" size="sm">
+      <Thead>
+        <Tr>
           {data[0].map((header: string, index: number) => (
-            <th key={index}>{header}</th>
+            <Th key={index}>{header}</Th>
           ))}
-        </tr>
-      </thead>
-      <tbody>
+        </Tr>
+      </Thead>
+      <Tbody>
         {data.slice(1).map((row: string[], rowIndex: number) => (
-          <tr key={rowIndex}>
+          <Tr key={rowIndex}>
             {row.map((cell: string, cellIndex: number) => (
-              <td key={cellIndex}>{cell}</td>
+              <Td key={cellIndex}>{cell}</Td>
             ))}
-          </tr>
+          </Tr>
         ))}
-      </tbody>
-    </table>
+      </Tbody>
+    </Table>
   );
 }
