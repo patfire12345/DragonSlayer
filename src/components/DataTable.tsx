@@ -1,7 +1,9 @@
 import { Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 
+export type TableData = string[][];
+
 type Props = {
-  data: any[];
+  data: TableData;
 };
 
 export default function DataTable({ data }: Props) {
