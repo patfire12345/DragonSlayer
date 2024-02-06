@@ -1,4 +1,4 @@
-import { Button, Container, Heading, VStack, HStack, Textarea, Select } from "@chakra-ui/react";
+import { Button, Container, Heading, VStack, HStack, Textarea, Select, Input, Radio, RadioGroup } from "@chakra-ui/react";
 import DataTable, { TableData } from "./DataTable";
 
 import { extractCsvStrings } from "../utils/extractionUtils";
@@ -10,16 +10,18 @@ export default function CsvParser() {
   const [userInput, setUserInput] = useState<string>("");
   const [tables, setTables] = useState<TableData[]>([]);
   const [delimiter, setDelimiter] = useState<string>("");
+  const [customDelimiter, setCustomDelimiter] = useState<string>("");
+  const [tolerance, setTolerance] = useState<number>(1);
   const tab = "\t";
 
   useEffect(() => {
-    console.log(delimiter)
+    setCustomDelimiter("")
   },[delimiter])
 
   const handleParseCSV = () => {
     setTables([]);
 
-    const tableList = extractCsvStrings(userInput, delimiter, 1);
+    const tableList = extractCsvStrings(userInput, delimiter === "custom" ? customDelimiter : delimiter, tolerance);
 
     tableList.forEach((tableString) => {
       readString(tableString, {
@@ -41,13 +43,26 @@ export default function CsvParser() {
             <option value="custom">Custom</option>
           </Select>
         </HStack>
+        {
+          delimiter === "custom" ?
+          <HStack>
+            <label>Custom Delimiter: </label>
+            <Input value={customDelimiter} placeholder="eg. |" name="custom" id="custom" onChange={(e) => setCustomDelimiter(e.target.value)}/>
+          </HStack> : null
+        }
+        <RadioGroup defaultValue={String(tolerance)} onChange={(e) => setTolerance(Number(e))}>
+          <label>Tolerance: (Optional: Recommended Value is 1, increment by 1 if not parsing correctly) </label>
+          <Radio value="1">1</Radio>
+          <Radio value="2">2</Radio>
+          <Radio value="3">3</Radio>
+        </RadioGroup>
         <Textarea
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
           placeholder="Paste CSV here..."
           rows={10}
         />
-        <Button onClick={() => handleParseCSV()}>Parse CSV</Button>
+        <Button onClick={() => handleParseCSV()} colorScheme="blue">Parse CSV</Button>
         {tables.map((table, index) => (
           <>
             <Heading
