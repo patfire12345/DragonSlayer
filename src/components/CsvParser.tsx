@@ -12,7 +12,9 @@ export default function CsvParser() {
   const [delimiter, setDelimiter] = useState<string>("");
   const [customDelimiter, setCustomDelimiter] = useState<string>("");
   const [tolerance, setTolerance] = useState<number>(1);
-  const tab = "\t";
+  
+  const delimiterObject = {value: [",","\t","custom"], text: ["CSV (,)","TSV (\"  \")","Custom"]};
+  const toleranceObject = {value: ["1","2","3"], text: [1,2,3]}
 
   useEffect(() => {
     setCustomDelimiter("")
@@ -38,9 +40,11 @@ export default function CsvParser() {
         <HStack>
           <label>Delimiter: </label>
           <Select defaultValue={[","]} name="delimiter" id="delimiter" value={delimiter} onChange={(e) => setDelimiter(e.target.value)}>
-            <option value=",">CSV (,)</option>
-            <option value={tab}>TSV ("  ")</option>
-            <option value="custom">Custom</option>
+            {delimiterObject.value.map((value,index) => {
+              return (
+                <option value={value}>{delimiterObject.text[index]}</option>
+              );
+            })}
           </Select>
         </HStack>
         {
@@ -52,9 +56,11 @@ export default function CsvParser() {
         }
         <RadioGroup defaultValue={String(tolerance)} onChange={(e) => setTolerance(Number(e))}>
           <label>Tolerance: (Optional: Recommended Value is 1, increment by 1 if not parsing correctly) </label>
-          <Radio value="1">1</Radio>
-          <Radio value="2">2</Radio>
-          <Radio value="3">3</Radio>
+          {toleranceObject.value.map((value,index) => {
+            return (
+              <Radio value={value}>{toleranceObject.text[index]}</Radio>
+            );
+          })}
         </RadioGroup>
         <Textarea
           value={userInput}
@@ -63,7 +69,7 @@ export default function CsvParser() {
           rows={10}
         />
         <Button onClick={() => handleParseCSV()} colorScheme="blue">Parse CSV</Button>
-        {tables.map((table, index) => (
+        {tables.length === 0 ? <>No tables detected!</> :tables.map((table, index) => (
           <>
             <Heading
               as="h2"
