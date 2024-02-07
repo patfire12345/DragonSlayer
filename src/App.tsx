@@ -1,7 +1,7 @@
-import CsvParser from "./components/CsvParser";
+import TextParser from "./components/TextParser";
 
 function App() {
-  return <CsvParser />;
+  return <TextParser />;
 }
 
 export default App;
