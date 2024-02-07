@@ -39,7 +39,7 @@ export default function ParserOptions(props: Props) {
   } = props;
 
   return (
-    <VStack spacing="1rem">
+    <VStack spacing="1rem" align="flex-start">
       <HStack>
         <label htmlFor="delimiter">Delimiter: </label>
         <Select

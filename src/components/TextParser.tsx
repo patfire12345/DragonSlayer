@@ -45,40 +45,39 @@ export default function TextParser() {
   };
 
   return (
-    <Container maxW="4xl" p="1rem">
-      <VStack spacing="1rem">
-        <ParserOptions
-          delimiter={delimiter}
-          setDelimiter={setDelimiter}
-          customDelimiter={customDelimiter}
-          setCustomDelimiter={setCustomDelimiter}
-          tolerance={tolerance}
-          setTolerance={setTolerance}
-        />
-        <Textarea
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Paste CSV here..."
-          rows={10}
-        />
-        <Button onClick={() => handleParseCSV()} colorScheme="blue">
-          Parse CSV
-        </Button>
-        {tables.length === 0 ? (
-          <Heading as="h2" size="sm" textAlign="center" mt="1rem">
-            No tables detected!
-          </Heading>
-        ) : (
-          tables.map((table, index) => (
-            <Box key={index}>
-              <Heading as="h2" size="sm" textAlign="center">
-                Table {index + 1}
-              </Heading>
-              <DataTable key={index} data={table} />
-            </Box>
-          ))
-        )}
-      </VStack>
-    </Container>
+    <VStack spacing="1rem" padding="1rem" align="flex-start">
+      <ParserOptions
+        delimiter={delimiter}
+        setDelimiter={setDelimiter}
+        customDelimiter={customDelimiter}
+        setCustomDelimiter={setCustomDelimiter}
+        tolerance={tolerance}
+        setTolerance={setTolerance}
+      />
+      <Textarea
+        value={userInput}
+        onChange={(e) => setUserInput(e.target.value)}
+        placeholder="Paste CSV here..."
+        variant="filled"
+        rows={10}
+      />
+      <Button onClick={() => handleParseCSV()} colorScheme="blue">
+        Parse CSV
+      </Button>
+      {tables.length === 0 ? (
+        <Heading as="h2" size="sm">
+          No tables detected!
+        </Heading>
+      ) : (
+        tables.map((table, index) => (
+          <Box key={index} maxW="100%">
+            <Heading as="h2" size="sm">
+              Table {index + 1}
+            </Heading>
+            <DataTable key={index} data={table} />
+          </Box>
+        ))
+      )}
+    </VStack>
   );
 }
