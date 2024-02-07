@@ -1,4 +1,4 @@
-export const extractCsvStrings = (
+export const extractTableStrings = (
   text: string,
   delimitter: string,
   tolerance: number
