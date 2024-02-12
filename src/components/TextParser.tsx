@@ -74,7 +74,7 @@ export default function TextParser() {
               variant="filled"
               rows={10}
             />
-            <Button onClick={() => handleParseCSV()} colorScheme="blue">
+            <Button onClick={() => handleParseCSV(false)} colorScheme="blue">
               Parse CSV
             </Button>
             {tables.length === 0 ? (
@@ -102,7 +102,7 @@ export default function TextParser() {
               variant="filled"
               rows={10}
             />
-            <Button onClick={() => handleParseCSV()} colorScheme="blue">
+            <Button onClick={() => handleParseCSV(true)} colorScheme="blue">
               Parse CSV
             </Button>
             {tables.length === 0 ? (
