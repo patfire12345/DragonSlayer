@@ -14,7 +14,7 @@ import DataTable, { TableData } from "./DataTable";
 import { useEffect, useState } from "react";
 
 import ParserOptions from "./ParserOptions";
-import { extractTableStrings, extractOnlyTable } from "../utils/extractionUtils";
+import { extractTableStrings } from "../utils/extractionUtils";
 import { usePapaParse } from "react-papaparse";
 
 export default function TextParser() {
@@ -32,21 +32,30 @@ export default function TextParser() {
   const handleParseCSV = (onlyTable: boolean) => {
     setTables([]);
 
-    const tableList = onlyTable ? extractOnlyTable(
-      userInput,
-    ) : extractTableStrings(
-      userInput,
-      delimiter === "custom" ? customDelimiter : delimiter,
-      tolerance
-    );
-
-    tableList.forEach((tableString) => {
-      readString(tableString, {
+    if (onlyTable) {
+      readString(userInput, {
         complete: (results) => {
           setTables((prevTables) => [...prevTables, results.data as TableData]);
-        },
+        }
+      })
+    }
+
+    else {
+      const tableList = extractTableStrings(
+        userInput,
+        delimiter === "custom" ? customDelimiter : delimiter,
+        tolerance
+      );
+  
+      tableList.forEach((tableString) => {
+        readString(tableString, {
+          complete: (results) => {
+            setTables((prevTables) => [...prevTables, results.data as TableData]);
+          },
+        });
       });
-    });
+    }
+
   };
 
   return (
