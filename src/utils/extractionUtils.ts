@@ -59,3 +59,21 @@ export const extractTableStrings = (
 
   return tableList;
 };
+
+export const extractOnlyTable = (  
+  text: string,
+  ) => {
+    const splitText = text.split("\n");
+    const newSplitText = [];
+  
+    let i = 0;
+    
+
+    while (i < splitText.length) {
+      newSplitText.push(splitText[i]);
+
+      i++;
+    }
+  
+    return newSplitText;   
+}
