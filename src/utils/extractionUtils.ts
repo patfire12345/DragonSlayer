@@ -60,20 +60,17 @@ export const extractTableStrings = (
   return tableList;
 };
 
-export const extractOnlyTable = (  
-  text: string,
-  ) => {
-    const splitText = text.split("\n");
-    const newSplitText = [];
-  
-    let i = 0;
-    
+export const extractOnlyTable = (text: string) => {
+  const splitText = text.split("\n");
+  const newSplitText = [];
 
-    while (i < splitText.length) {
-      newSplitText.push(splitText[i]);
+  let i = 0;
 
-      i++;
-    }
-  
-    return newSplitText;   
-}
+  while (i < splitText.length) {
+    newSplitText.push(splitText[i]);
+
+    i++;
+  }
+
+  return newSplitText;
+};

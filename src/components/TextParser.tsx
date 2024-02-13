@@ -2,13 +2,14 @@ import {
   Box,
   Button,
   Heading,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
   Textarea,
   VStack,
-  Tabs, 
-  TabList, 
-  TabPanels, 
-  Tab, 
-  TabPanel
 } from "@chakra-ui/react";
 import DataTable, { TableData } from "./DataTable";
 import { useEffect, useState } from "react";
@@ -36,38 +37,45 @@ export default function TextParser() {
       readString(userInput, {
         complete: (results) => {
           setTables((prevTables) => [...prevTables, results.data as TableData]);
-        }
-      })
-    }
-
-    else {
+        },
+      });
+    } else {
       const tableList = extractTableStrings(
         userInput,
         delimiter === "custom" ? customDelimiter : delimiter,
         tolerance
       );
-  
+
       tableList.forEach((tableString) => {
         readString(tableString, {
           complete: (results) => {
-            setTables((prevTables) => [...prevTables, results.data as TableData]);
+            setTables((prevTables) => [
+              ...prevTables,
+              results.data as TableData,
+            ]);
           },
         });
       });
     }
-
   };
 
   return (
     <Tabs>
       <TabList>
-        <Tab>With Text</Tab>
-        <Tab>Without Text</Tab>
+        <Tab>Table Extractor</Tab>
+        <Tab>Table Only Parser</Tab>
       </TabList>
 
       <TabPanels>
         <TabPanel>
           <VStack spacing="1rem" padding="1rem" align="flex-start">
+            <Heading as="h1">Table Extractor</Heading>
+            <Text as="b">
+              Use this tab to extract tables from a prompt that may contain
+              multiple tables. You can configure the parser options and set the
+              delimiter and tolerance level for table extraction.
+            </Text>
+
             <ParserOptions
               delimiter={delimiter}
               setDelimiter={setDelimiter}
@@ -76,6 +84,7 @@ export default function TextParser() {
               tolerance={tolerance}
               setTolerance={setTolerance}
             />
+
             <Textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
@@ -83,9 +92,11 @@ export default function TextParser() {
               variant="filled"
               rows={10}
             />
+
             <Button onClick={() => handleParseCSV(false)} colorScheme="blue">
               Parse CSV
             </Button>
+
             {tables.length === 0 ? (
               <Heading as="h2" size="sm">
                 No tables detected!
@@ -102,8 +113,15 @@ export default function TextParser() {
             )}
           </VStack>
         </TabPanel>
+
         <TabPanel>
           <VStack spacing="1rem" padding="1rem" align="flex-start">
+            <Heading as="h1">Table Only Parser</Heading>
+            <Text as="b">
+              Use this tab if you want to parse a single table from a CSV input.
+              This can be more reliable than the Table Extractor if your CSV
+              contains only one table, and you want to parse it directly.
+            </Text>
             <Textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
@@ -111,9 +129,11 @@ export default function TextParser() {
               variant="filled"
               rows={10}
             />
+
             <Button onClick={() => handleParseCSV(true)} colorScheme="blue">
               Parse CSV
             </Button>
+
             {tables.length === 0 ? (
               <Heading as="h2" size="sm">
                 No tables detected!
