@@ -4,11 +4,11 @@ import {
   Heading,
   Textarea,
   VStack,
-  Tabs, 
-  TabList, 
-  TabPanels, 
-  Tab, 
-  TabPanel
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
 } from "@chakra-ui/react";
 import DataTable, { TableData } from "./DataTable";
 import { useEffect, useState } from "react";
@@ -36,26 +36,28 @@ export default function TextParser() {
       readString(userInput, {
         complete: (results) => {
           setTables((prevTables) => [...prevTables, results.data as TableData]);
-        }
-      })
-    }
-
-    else {
+        },
+        delimitersToGuess: [",", "	", "|", ";", "\\t", " ", "\\n", "\\r"],
+      });
+    } else {
       const tableList = extractTableStrings(
         userInput,
         delimiter === "custom" ? customDelimiter : delimiter,
         tolerance
       );
-  
+
       tableList.forEach((tableString) => {
         readString(tableString, {
           complete: (results) => {
-            setTables((prevTables) => [...prevTables, results.data as TableData]);
+            setTables((prevTables) => [
+              ...prevTables,
+              results.data as TableData,
+            ]);
           },
+          delimitersToGuess: [",", "	", "|", ";", "\\t", " ", "\\n", "\\r"],
         });
       });
     }
-
   };
 
   return (

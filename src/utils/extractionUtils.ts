@@ -22,8 +22,12 @@ export const extractTableStrings = (
           newSplitText.push(csvHeaderText);
           headerRowFound = true;
 
-          for (let j = 0; j < csvHeaderText.length; j++) {
-            if (csvHeaderText[j] === delimitter) {
+          for (
+            let j = 0;
+            j < csvHeaderText.length - (delimitter.length - 1);
+            j++
+          ) {
+            if (csvHeaderText.slice(j, j + delimitter.length) === delimitter) {
               delimitterCount++;
             }
           }
@@ -34,8 +38,8 @@ export const extractTableStrings = (
       }
 
       let innerDelimiterCount = 0;
-      for (let j = 0; j < splitText[i].length; j++) {
-        if (splitText[i][j] === delimitter) {
+      for (let j = 0; j < splitText[i].length - (delimitter.length - 1); j++) {
+        if (splitText[i].slice(j, j + delimitter.length) === delimitter) {
           innerDelimiterCount++;
         }
       }
@@ -60,20 +64,17 @@ export const extractTableStrings = (
   return tableList;
 };
 
-export const extractOnlyTable = (  
-  text: string,
-  ) => {
-    const splitText = text.split("\n");
-    const newSplitText = [];
-  
-    let i = 0;
-    
+export const extractOnlyTable = (text: string) => {
+  const splitText = text.split("\n");
+  const newSplitText = [];
 
-    while (i < splitText.length) {
-      newSplitText.push(splitText[i]);
+  let i = 0;
 
-      i++;
-    }
-  
-    return newSplitText;   
-}
+  while (i < splitText.length) {
+    newSplitText.push(splitText[i]);
+
+    i++;
+  }
+
+  return newSplitText;
+};
