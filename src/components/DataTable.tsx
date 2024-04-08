@@ -12,7 +12,7 @@ export default function DataTable({ data }: Props) {
   }
 
   return (
-    <Box maxW="100%" overflowX="scroll">
+    <Box maxW="100%" overflowX="auto">
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
