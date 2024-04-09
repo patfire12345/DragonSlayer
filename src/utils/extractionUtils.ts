@@ -22,8 +22,12 @@ export const extractTableStrings = (
           newSplitText.push(csvHeaderText);
           headerRowFound = true;
 
-          for (let j = 0; j < csvHeaderText.length; j++) {
-            if (csvHeaderText[j] === delimitter) {
+          for (
+            let j = 0;
+            j < csvHeaderText.length - (delimitter.length - 1);
+            j++
+          ) {
+            if (csvHeaderText.slice(j, j + delimitter.length) === delimitter) {
               delimitterCount++;
             }
           }
@@ -34,8 +38,8 @@ export const extractTableStrings = (
       }
 
       let innerDelimiterCount = 0;
-      for (let j = 0; j < splitText[i].length; j++) {
-        if (splitText[i][j] === delimitter) {
+      for (let j = 0; j < splitText[i].length - (delimitter.length - 1); j++) {
+        if (splitText[i].slice(j, j + delimitter.length) === delimitter) {
           innerDelimiterCount++;
         }
       }

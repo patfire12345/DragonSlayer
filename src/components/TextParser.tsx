@@ -38,6 +38,7 @@ export default function TextParser() {
         complete: (results) => {
           setTables((prevTables) => [...prevTables, results.data as TableData]);
         },
+        delimitersToGuess: [",", "	", "|", ";", "\\t", " ", "\\n", "\\r"],
       });
     } else {
       const tableList = extractTableStrings(
@@ -54,6 +55,7 @@ export default function TextParser() {
               results.data as TableData,
             ]);
           },
+          delimitersToGuess: [",", "	", "|", ";", "\\t", " ", "\\n", "\\r"],
         });
       });
     }
